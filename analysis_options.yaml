@@ -1,0 +1,13 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+  errors:
+    todo: ignore
+  exclude:
+    - build/**
+    # Both directories only hold symlinks to shared/swiftui_kit, plus the
+    # generated plugin registration.
+    - ios/**
+    - macos/**

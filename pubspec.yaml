@@ -1,0 +1,41 @@
+name: swiftui_kit
+description: "Native SwiftUI glass bars for Flutter: a capsule bar and a title bar drawn by the system on iOS and macOS, with a pure-Flutter fallback elsewhere."
+version: 0.1.0
+
+repository: https://github.com/longyi-0x0/swiftui_kit
+
+topics:
+  - ios
+  - macos
+  - ui
+
+environment:
+  sdk: ^3.5.0
+  # Color.toARGB32, which the colour plumbing relies on, landed in 3.27.
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  # The Flutter fallback painters use Material icons.
+  uses-material-design: true
+  shaders:
+    # Liquid-glass edge refraction, used by the Flutter fallback. Referenced by
+    # the asset key `packages/swiftui_kit/shaders/liquid_glass.frag`.
+    - shaders/liquid_glass.frag
+  plugin:
+    platforms:
+      # Two platform views are registered on each of these:
+      # `swiftui_kit/capsule_bar` and `swiftui_kit/title_bar`. Other platforms
+      # register nothing and always take the Flutter fallback.
+      ios:
+        pluginClass: SwiftuiKitPlugin
+      macos:
+        pluginClass: SwiftuiKitPlugin
