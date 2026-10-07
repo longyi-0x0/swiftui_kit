@@ -135,11 +135,13 @@ grey plate under the selected item, the right one holds `trailing` or, when
 `searchEnabled` is set, a magnifier. When there is nothing on the right, the left
 capsule is centred.
 
-The plate is a fill rather than another piece of glass: refraction over a flat
-page shifts the tone by single digits, which reads as no selection at all. Its
-colour is not a parameter — a neutral grey is derived from the brightness (black
-at 12% in light, white at 14% in dark) and travels in the palette alongside the
-ink.
+The plate is a fill rather than another piece of glass: the system's selection
+material is not exposed to third-party code, and its own appearance follows its
+backdrop, so a re-implementation can only sit within the range the system shows.
+Its colour is not a parameter — a light neutral grey is derived from the
+brightness (black at 7% in light, white at 8% in dark) and travels in the palette
+alongside the ink. The system's plate also shades from lighter at the top to
+darker at the bottom; this one is flat.
 
 | Parameter | Description |
 | --- | --- |

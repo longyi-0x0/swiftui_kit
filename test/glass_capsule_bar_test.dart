@@ -176,10 +176,11 @@ void main() {
               expect(palette['foreground'], isA<int>());
               expect(
                 palette['selectedPlate'],
-                0x1F000000,
+                0x12000000,
                 reason:
-                    'the plate is a neutral grey a couple of steps darker than '
-                    'the bar, not a near-white fill',
+                    'the plate is a light neutral grey: it sits within the range '
+                    'the system material shows (11 to 24 levels below the bar), '
+                    'not a near-white fill and not a heavy grey',
               );
             }));
 

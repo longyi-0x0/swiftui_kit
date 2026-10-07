@@ -261,8 +261,8 @@ struct GlassSurface<S: Shape>: ViewModifier {
 }
 
 extension View {
-  /// Draws this view as glass in [shape]. A non-nil [tint] colors it (used for the
-  /// selected fill).
+  /// Draws this view as glass in [shape]. A non-nil [tint] colors it (used by a
+  /// selected title bar item).
   func glassed<S: Shape>(_ shape: S, interactive: Bool, tint: Color? = nil) -> some View {
     modifier(GlassSurface(shape: shape, interactive: interactive, tint: tint))
   }

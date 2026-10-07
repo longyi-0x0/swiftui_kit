@@ -92,16 +92,18 @@ class GlassInk {
     return Color.lerp(unfocusedUnselected, focusedUnselected, _weight)!;
   }
 
-  /// 选中盘面的底色：一块中性灰，比胶囊自己的玻璃深两档。
+  /// 选中盘面的底色。
   ///
-  /// 浅色下是黑 @12%，深色下是白 @14% —— 系统电话栏选中那一格的实测：盘面
-  /// `#D8D9DB`，同一条栏 `#F0F0F0`~`#FDFDFD`，差 25~35 级。这一支不交给系统玻璃去
-  /// 折射：纸面是平的时，折射出来的差值只有 7 级上下，等于看不出选中。
+  /// 盘面不是系统组件画的：系统 TabView 的选中材质没有公开接口，这一套是 kit 自己铺的
+  /// 一个 capsule 填充。系统那块是半透明材质，自己取样底下的内容，所以同一处在不同底上
+  /// 的差值并不一样 —— 官方电话栏上量到过 11~20 级（栏 `#FDFDFD`、盘面
+  /// `#E9E9EA`~`#F2F2F2`），另一张底上是 24 级（栏 `#F0F0F0`、盘面 `#D8D9DB`）。写死一个
+  /// alpha 追不上它，只能落在这一段里：取 7%，在本应用的纸面上落在 15 级上下。
   ///
-  /// 调用方没有可传的颜色，这一侧定死；随 [weight] 与整条一起淡出，原生侧整条按
-  /// `0.55 + 0.45 × weight` 淡，同一档。
-  static const Color _plateLight = Color(0x1F000000);
-  static const Color _plateDark = Color(0x24FFFFFF);
+  /// 另外，系统那块盘面还带上浅下深的竖向渐变（上 245、下 233）。这里是一块平填充，
+  /// 那条渐变没有仿。
+  static const Color _plateLight = Color(0x12000000);
+  static const Color _plateDark = Color(0x14FFFFFF);
 
   Color get selectedPlate {
     final Color base = isDark ? _plateDark : _plateLight;
