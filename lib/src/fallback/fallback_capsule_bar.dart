@@ -383,7 +383,7 @@ class _FallbackCapsuleBarState extends State<FallbackCapsuleBar>
       toIndex: _toIndex,
       animation: _indicatorController,
       curve: GlassMotion.ease,
-      indicatorColor: _ink.selectedFill,
+      indicatorColor: _ink.selectedPlate,
       height: _innerHeight,
       itemBuilder: (context, i) {
         final selected = widget.selectedIndex == i;

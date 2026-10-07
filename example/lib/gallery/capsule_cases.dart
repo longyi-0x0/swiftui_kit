@@ -14,16 +14,17 @@ import 'glass_case.dart';
 List<GlassCase> capsuleCases() => <GlassCase>[
       _case(
         'Three items · middle selected',
-        'The ordinary state: three items with a filled pill behind the middle one. Interactive.',
+        'The ordinary state: three items, the middle one carrying a grey plate. Interactive.',
         swift: r'''
 HStack(spacing: 0) {
   ForEach(items) { item in
     Button { select(item) } label: {
       Label(item.label, systemImage: item.symbol)
         .padding(.horizontal, 22 * scale)
-        // The selection pill is this item's own background
+        // The selection is a fill, not another piece of glass: refraction over a
+        // flat page shifts the tone by single digits — no visible selection.
         .background {
-          if item.id == selectedID { Capsule().fill(selectedFill) }
+          if item.id == selectedID { Capsule().fill(selectedPlate) }
         }
     }
     .buttonStyle(.plain)

@@ -92,15 +92,20 @@ class GlassInk {
     return Color.lerp(unfocusedUnselected, focusedUnselected, _weight)!;
   }
 
-  /// The fill behind the selected capsule item: a solid, light-coloured plate.
-  Color get selectedFill {
-    final focused = isDark
-        ? Colors.white.withValues(alpha: 0.22)
-        : Colors.white.withValues(alpha: 0.94);
-    final unfocused = isDark
-        ? Colors.white.withValues(alpha: 0.10)
-        : Colors.white.withValues(alpha: 0.55);
-    return Color.lerp(unfocused, focused, _weight)!;
+  /// 选中盘面的底色：一块中性灰，比胶囊自己的玻璃深两档。
+  ///
+  /// 浅色下是黑 @12%，深色下是白 @14% —— 系统电话栏选中那一格的实测：盘面
+  /// `#D8D9DB`，同一条栏 `#F0F0F0`~`#FDFDFD`，差 25~35 级。这一支不交给系统玻璃去
+  /// 折射：纸面是平的时，折射出来的差值只有 7 级上下，等于看不出选中。
+  ///
+  /// 调用方没有可传的颜色，这一侧定死；随 [weight] 与整条一起淡出，原生侧整条按
+  /// `0.55 + 0.45 × weight` 淡，同一档。
+  static const Color _plateLight = Color(0x1F000000);
+  static const Color _plateDark = Color(0x24FFFFFF);
+
+  Color get selectedPlate {
+    final Color base = isDark ? _plateDark : _plateLight;
+    return base.withValues(alpha: base.a * (0.55 + 0.45 * _weight));
   }
 
   /// Placeholder text, such as the hint of a search field.
@@ -118,13 +123,15 @@ class GlassInk {
   /// The palette pushed to the native renderer.
   ///
   /// The keys match the Swift `GlassPalette` initialiser; `isDark` travels as a
-  /// flag, everything else as an ARGB integer except [subtitleAlpha].
+  /// flag, everything else as an ARGB integer except [subtitleAlpha]. The
+  /// selected plate travels as a fill: the system's own glass cannot produce it,
+  /// because over a flat page refraction shifts the tone by single digits.
   Map<String, Object?> toSpec() => <String, Object?>{
         'isDark': isDark,
         'foreground': foreground.toARGB32(),
         'selectedInk': item(selected: true).toARGB32(),
         'plainInk': item(selected: false).toARGB32(),
-        'selectedFill': selectedFill.toARGB32(),
+        'selectedPlate': selectedPlate.toARGB32(),
         'hint': hint.toARGB32(),
         'action': action.toARGB32(),
         'separator': separator.toARGB32(),

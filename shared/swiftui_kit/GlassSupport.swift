@@ -99,7 +99,10 @@ struct GlassPalette {
   let foreground: Color
   let selectedInk: Color
   let plainInk: Color
-  let selectedFill: Color
+  /// Fill behind the selected capsule item: a neutral grey, deeper than the bar's own
+  /// glass. It travels as a fill rather than as glass because refraction over a flat
+  /// page shifts the tone by single digits, which reads as no selection at all.
+  let selectedPlate: Color
   let hint: Color
   let action: Color
   let separator: Color
@@ -112,7 +115,7 @@ struct GlassPalette {
     self.foreground = foreground
     selectedInk = GlassSpec.color(raw["selectedInk"]) ?? foreground
     plainInk = GlassSpec.color(raw["plainInk"]) ?? foreground
-    selectedFill = GlassSpec.color(raw["selectedFill"]) ?? Color.white.opacity(0.94)
+    selectedPlate = GlassSpec.color(raw["selectedPlate"]) ?? Color.black.opacity(0.12)
     hint = GlassSpec.color(raw["hint"]) ?? Color.white.opacity(0.45)
     action = GlassSpec.color(raw["action"]) ?? Color.white.opacity(0.45)
     separator = GlassSpec.color(raw["separator"]) ?? Color.black.opacity(0.08)

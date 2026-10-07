@@ -154,11 +154,13 @@ struct CapsuleBarContent: View {
               maxHeight: innerHeight
             )
             // The selected pill is this item's own background; layout supplies its
-            // position and width, so no other item's frame is measured.
+            // position and width, so no other item's frame is measured. It is a fill,
+            // not another piece of glass: refraction over a flat page shifts the tone
+            // by single digits, which reads as no selection at all.
             .background {
               if index == spec.selectedIndex {
                 Capsule()
-                  .fill(spec.palette.selectedFill)
+                  .fill(spec.palette.selectedPlate)
                   .transition(.opacity)
               }
             }

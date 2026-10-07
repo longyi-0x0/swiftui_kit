@@ -173,8 +173,14 @@ void main() {
 
               final palette = host.spec['palette']! as Map<Object?, Object?>;
               expect(palette['isDark'], isFalse);
-              expect(palette['selectedFill'], isA<int>());
               expect(palette['foreground'], isA<int>());
+              expect(
+                palette['selectedPlate'],
+                0x1F000000,
+                reason:
+                    'the plate is a neutral grey a couple of steps darker than '
+                    'the bar, not a near-white fill',
+              );
             }));
 
     testWidgets(
