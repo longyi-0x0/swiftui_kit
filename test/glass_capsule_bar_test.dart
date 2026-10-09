@@ -111,16 +111,19 @@ void main() {
       );
       // The first frame has not faded in yet. The router has a fade of its own,
       // so the one to look for is inside the fallback.
-      FadeTransition fade() => tester.widget<FadeTransition>(
-            find.descendant(
-              of: find.byType(EntranceFade),
-              matching: find.byType(FadeTransition),
-            ),
+      Finder fadeFinder() => find.descendant(
+            of: find.byType(EntranceFade),
+            matching: find.byType(FadeTransition),
           );
-      expect(fade().opacity.value, lessThan(0.5));
+      expect(
+        tester.widget<FadeTransition>(fadeFinder()).opacity.value,
+        lessThan(0.5),
+      );
 
       await tester.pump(GlassMotion.entranceFade);
-      expect(fade().opacity.value, 1);
+      await tester.pump();
+      // 动画结束后卸掉 FadeTransition，避免矩形合成层压住圆角外的内容。
+      expect(fadeFinder(), findsNothing);
     });
   });
 

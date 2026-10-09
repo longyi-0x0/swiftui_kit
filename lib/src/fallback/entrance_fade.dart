@@ -13,6 +13,10 @@ import '../theme/glass_motion.dart';
 ///
 /// Only the fallback is wrapped: the native view is already late, and adding
 /// this on top would double the delay.
+///
+/// 淡入结束后不再包 [FadeTransition]：它会占满一条矩形合成层，叠在二楼圆角卡片
+/// 顶上时，圆角外的楔形仍落在这一层范围里，再加子树里的 BackdropFilter，会把后面
+/// 的二楼挡住。
 class EntranceFade extends StatefulWidget {
   const EntranceFade({
     super.key,
@@ -36,6 +40,10 @@ class _EntranceFadeState extends State<EntranceFade>
     vsync: this,
     duration: widget.duration,
   );
+  late final Animation<double> _opacity = CurvedAnimation(
+    parent: _controller,
+    curve: GlassMotion.fadeOut,
+  );
 
   @override
   void initState() {
@@ -45,14 +53,20 @@ class _EntranceFadeState extends State<EntranceFade>
 
   @override
   void dispose() {
+    _opacity.dispose();
     _controller.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => FadeTransition(
-        opacity:
-            CurvedAnimation(parent: _controller, curve: GlassMotion.fadeOut),
-        child: widget.child,
-      );
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      child: widget.child,
+      builder: (BuildContext context, Widget? child) {
+        if (_controller.value >= 1.0 - 1e-6) return child!;
+        return FadeTransition(opacity: _opacity, child: child!);
+      },
+    );
+  }
 }
