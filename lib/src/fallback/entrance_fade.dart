@@ -40,7 +40,7 @@ class _EntranceFadeState extends State<EntranceFade>
     vsync: this,
     duration: widget.duration,
   );
-  late final Animation<double> _opacity = CurvedAnimation(
+  late final CurvedAnimation _opacity = CurvedAnimation(
     parent: _controller,
     curve: GlassMotion.fadeOut,
   );
