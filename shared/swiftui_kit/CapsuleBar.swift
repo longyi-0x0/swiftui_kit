@@ -27,7 +27,6 @@ struct CapsuleBarSpec {
   let searchEnabled: Bool
   let searching: Bool
   let searchText: String?
-  let spacing: CGFloat
   let searchHint: String
   let searchCancel: String
   let trailing: CapsuleItemSpec?
@@ -43,7 +42,6 @@ struct CapsuleBarSpec {
     searchEnabled = GlassSpec.bool(raw["searchEnabled"], false)
     searching = GlassSpec.bool(raw["searching"], false)
     searchText = GlassSpec.string(raw["searchText"])
-    spacing = GlassSpec.float(raw["spacing"], 12)
     searchHint = GlassSpec.string(raw["searchHint"]) ?? "Search"
     searchCancel = GlassSpec.string(raw["searchCancel"]) ?? "Cancel"
     trailing = GlassSpec.table(raw["trailing"]).map(CapsuleItemSpec.init)
@@ -117,7 +115,12 @@ struct CapsuleBarContent: View {
       if spec.searching {
         searchCapsule
       } else if hasRightSlot {
-        HStack(spacing: spec.spacing) {
+        // The two capsules sit at the ends of the bar with whatever room is left between
+        // them, and only [rightMinGap] is kept as a floor — the same as the fallback's row.
+        // An `HStack` spacing is applied either side of the Spacer as well, so between them
+        // the gap grew by twice `spacing`: with the items already close to filling the bar,
+        // that pushed both capsules out of the box, the right one to the edge of the page.
+        HStack(spacing: 0) {
           itemsCapsule
           Spacer(minLength: metrics.rightMinGap)
           rightCapsule

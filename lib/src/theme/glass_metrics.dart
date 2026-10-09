@@ -59,12 +59,17 @@ abstract final class GlassMetrics {
   /// The gap between two adjacent capsule items.
   static const double capsuleItemSpacing = 2;
 
-  /// The gap between the left and right capsules. The default of
-  /// `GlassCapsuleBar.spacing`.
+  /// The room kept for the right capsule while the left one widens into the
+  /// search field. The default of `GlassCapsuleBar.spacing`.
+  ///
+  /// Outside that transition the two capsules sit at the ends of the bar with
+  /// whatever is left between them, so this is not the gap they are laid out
+  /// at.
   static const double capsuleRightGap = 12;
 
   /// The smallest gap allowed between the two capsules once the right one has
-  /// content.
+  /// content: what is left between them may be less than this only if the bar
+  /// has no room for it.
   static const double capsuleRightMinGap = 8;
 
   /// The inset of the selection indicator inside a capsule item.

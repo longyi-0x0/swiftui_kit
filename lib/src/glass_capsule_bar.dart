@@ -130,7 +130,10 @@ class GlassCapsuleBar extends StatefulWidget {
   /// Called when the right capsule is activated.
   final VoidCallback? onTrailingTap;
 
-  /// The gap between the two capsules.
+  /// The room kept for the right capsule while the left one widens into the search
+  /// field, in the fallback's transition; the native one crossfades the two shapes.
+  /// Outside search the two capsules sit at the ends of the bar with whatever is
+  /// left between them, so this is the gap only of that transition.
   final double spacing;
 
   /// The height of the capsules.
@@ -181,7 +184,6 @@ class _GlassCapsuleBarState extends State<GlassCapsuleBar> {
       if (index != null) 'selectedIndex': index,
       'searchEnabled': widget.searchEnabled,
       'searching': widget.searching,
-      'spacing': widget.spacing,
       'searchHint': widget.searchPrompt,
       'searchCancel': widget.searchCancelLabel,
       if (trailing != null) 'trailing': _itemSpec(trailing),

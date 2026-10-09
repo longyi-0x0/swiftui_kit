@@ -107,7 +107,8 @@ class FallbackCapsuleBar extends StatefulWidget {
   /// Whether the bar accepts input.
   final bool allowsHitTesting;
 
-  /// The gap between the two capsules.
+  /// The room kept for the right capsule while the left one widens into the
+  /// search field.
   final double spacing;
 
   @override

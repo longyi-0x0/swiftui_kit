@@ -132,8 +132,10 @@ content, or in a `Column` to give it a row of its own.
 A floating capsule bar with an optional trailing action and an optional search
 field. The bar is two separate capsules: the left one holds `items` and draws a
 grey plate under the selected item, the right one holds `trailing` or, when
-`searchEnabled` is set, a magnifier. When there is nothing on the right, the left
-capsule is centred.
+`searchEnabled` is set, a magnifier. With something on the right the two sit at
+the ends of the bar and the gap between them is whatever room is left, never
+less than the smallest gap the design allows; nothing on the right centres the
+left capsule.
 
 The plate is a fill rather than another piece of glass: the system's selection
 material is not exposed to third-party code, and its own appearance follows its
@@ -155,7 +157,7 @@ darker at the bottom; this one is flat.
 | `onSearchEnter` / `onSearchChanged` / `onSearchSubmitted` / `onSearchCancel` | Search callbacks. |
 | `trailing` / `onTrailingTap` | The right capsule, and its tap callback. |
 | `item.help` | A tooltip shown on hover, on macOS. |
-| `spacing` / `height` | The gap between the two capsules, and their height. |
+| `spacing` / `height` | The room kept for the right capsule while the left one widens in search (the fallback's transition), and the height of both. |
 | `visualWeight` / `allowsHitTesting` | Visual weight from 0 to 1, and whether the bar accepts input. |
 
 Search state is owned by the caller, in the same way as for `GlassTitleBar`:

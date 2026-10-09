@@ -16,7 +16,13 @@ import AppKit
 /// Flutter requires a `UIView` on iOS and an `NSView` on macOS. That difference is
 /// confined here so the rest of the code stays single-source.
 #if canImport(UIKit)
-class GlassBaseView: UIView {}
+class GlassBaseView: UIView {
+  /// The frame Flutter assigns is the whole box for this surface, so the view reports no
+  /// safe area of its own: `UIHostingController` would otherwise inset the SwiftUI content
+  /// for the part of the frame that overlaps the system's safe area, and a bar with a fixed
+  /// height centred in that smaller box would ride up by half the inset.
+  override var safeAreaInsets: UIEdgeInsets { .zero }
+}
 #else
 class GlassBaseView: NSView {}
 #endif

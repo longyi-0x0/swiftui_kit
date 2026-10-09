@@ -72,9 +72,9 @@ GlassCapsuleBar(
         'Trailing · icon only',
         'A trailing item with an icon alone: the trailing glass is a circle whose diameter is height.',
         swift: r'''
-HStack(spacing: 12) {
+HStack(spacing: 0) {
   itemsCapsule
-  Spacer(minLength: 8)                    // the left capsule hugs the left once there is a trailing one
+  Spacer(minLength: 8)                    // the two capsules sit at the ends; the gap is what is left
   Button { more() } label: {
     Image(systemName: "ellipsis")
       .frame(width: height, height: height)   // a circle: the diameter is height
