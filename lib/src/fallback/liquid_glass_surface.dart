@@ -90,7 +90,9 @@ class _LiquidGlassSurfaceState extends State<LiquidGlassSurface> {
   }
 
   Future<void> _prepareShader() async {
-    if (!widget.enableRefraction || !GlassShader.isSupported) {
+    if (!_composeRefractionOverBlur ||
+        !widget.enableRefraction ||
+        !GlassShader.isSupported) {
       if (mounted) setState(() => _ready = true);
       return;
     }
@@ -143,9 +145,17 @@ class _LiquidGlassSurfaceState extends State<LiquidGlassSurface> {
         ),
       ];
 
+  /// 是否把折射 shader 叠在 blur 外面。
+  ///
+  /// `ImageFilter.compose(shader ∘ blur)` 在带 Clip 时会打乱 `FlutterFragCoord` /
+  /// UV（flutter/flutter#181660），把远处像素采进表面 —— 二楼顶上的绿书就会出现在
+  /// 底部胶囊里。引擎修好之前关掉叠法，只保留模糊霜化。
+  static const bool _composeRefractionOverBlur = false;
+
   /// Whether the shader is already painting the body, in which case this layer
   /// must not paint it again.
   bool get _shaderPaintsBody =>
+      _composeRefractionOverBlur &&
       _ready &&
       _shader != null &&
       widget.enableRefraction &&
@@ -214,7 +224,8 @@ class _LiquidGlassSurfaceState extends State<LiquidGlassSurface> {
   ui.ImageFilter _buildFilter(BorderRadius radius, double glassHeight) {
     final base = _baseFilter();
     final shader = _shader;
-    if (!_ready ||
+    if (!_composeRefractionOverBlur ||
+        !_ready ||
         shader == null ||
         !widget.enableRefraction ||
         !GlassShader.isSupported) {
